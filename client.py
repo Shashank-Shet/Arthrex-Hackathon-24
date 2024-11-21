@@ -14,7 +14,7 @@ st.set_page_config(page_title="Radiology report generation", layout="wide")
  
 # Sidebar for image upload
 st.sidebar.header("Upload Image")
-uploaded_files = st.sidebar.file_uploader("upload image", type=["png", "jpg", "jpeg", "bmp"],accept_multiple_files=False)
+uploaded_files = st.sidebar.file_uploader("upload image", type=["png", "jpg", "jpeg", "bmp"],accept_multiple_files=True)
  
 # Main layout
 st.title("Report from Xray")
@@ -43,10 +43,11 @@ with col2:
         st.session_state["messages"] = []
  
     # Input box for chat
-    user_message = st.text_input("Enter your prompt:", key="chat_input")
+    # user_message = st.text_input("Enter your prompt:", key="chat_input")
+    user_message = st.text_area("Enter your prompt:", key="chat_input")
  
     if st.button("Send"):
-        if len(user_message) > 0 and  len(uploaded_files) > 0 :
+        if len(user_message) > 0 and len(uploaded_files) > 0 :
             file_paths_list = []
             for uploaded_file in uploaded_files:
                 # Save the uploaded file
@@ -59,16 +60,16 @@ with col2:
             response = ollama.chat(
                 model="llama3.2-vision",
                 messages=[
+                    # {
+                    #     "role": "system",
+                    #     "content": ADMIN_ROLE_PROMPT,
+                    #     "images": [file_paths_list[0]]
+                    # },
                     {
-                        "role": "system",
-                        "content": ADMIN_ROLE_PROMPT,
+                        "role": "user",
+                        "content": user_message,
                         "images": [file_paths_list[0]]
                     },
-                    # {
-                    #     "role": "user",
-                    #     "content": USER_ROLE_PROMPT,
-                    #     "images": [file_paths_list[1]]
-                    # },
                 ]
             )
             # Extract cleaned text

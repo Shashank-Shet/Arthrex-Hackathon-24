@@ -10,7 +10,7 @@ The code in this repository contains a prototype to demonstrate some examples of
 ```sh
 conda create -n <env_name> python=3.11
 conda activate <env_name>
-python -m pip install ollama opencv-python streamlit
+python -m pip install ollama opencv-python streamlit matplotlib
 ```
 
 ## Running the code
@@ -18,3 +18,15 @@ python -m pip install ollama opencv-python streamlit
 streamlit run client.py
 ```
 The above command should spawn a browser instance with the UI initialized. Upload an image of the X-Ray and enter the requisite prompt to obtain the generated summary
+
+## Datasets Used
+-   [Shoulder X-Ray Classification Dataset](https://www.kaggle.com/datasets/dryari5/shoulder-xray-classification/data)
+<!-- -   [NIH Chest X-Rays Dataset](https://www.kaggle.com/datasets/nih-chest-xrays/data/data) -->
+- [Tuberculosis Chest X-Rays Dataset](https://www.kaggle.com/datasets/raddar/tuberculosis-chest-xrays-montgomery)
+
+### Additional utilities
+The `create_img_mosaic.py` file takes in 3 xray images and concatenates side by side. 2 of these images are used as few shot examples.
+
+```sh
+python create_img_mosaic.py <ref_img_1> <ref_img_2> <test_img> <output_fpath>
+```
